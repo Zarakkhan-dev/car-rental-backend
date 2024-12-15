@@ -4,7 +4,6 @@ import AppError from "../utils/appError.js";
 
 export const createCar = catchAsync(async (req, res, next) => {
   const { make, model, variant, registration_no, documents } = req.body;
-
   const documentsToSave = documents ? JSON.stringify(documents) : null;
 
   const [car] = await db('cars').insert({
@@ -25,19 +24,10 @@ export const createCar = catchAsync(async (req, res, next) => {
 
 export const getAllCars = catchAsync(async (req, res, next) => {
   const cars = await db('cars').select('*');
-
-  // Optionally parse documents back to JSON if needed
-  const parsedCars = cars.map(car => ({
-    ...car,
-    documents: car.documents ? JSON.parse(car.documents) : null, // Parse if documents exist
-  }));
-
   res.status(200).json({
     status: 'success',
-    results: parsedCars.length,
-    data: {
-      cars: parsedCars,
-    },
+    results: cars.length,
+    data: cars
   });
 });
 
@@ -48,8 +38,6 @@ export const getCarById = catchAsync(async (req, res, next) => {
   if (!car) {
     return next(new AppError('Car not found', 404));
   }
-
-  // Parse documents back to JSON if it exists
   car.documents = car.documents ? JSON.parse(car.documents) : null;
 
   res.status(200).json({
