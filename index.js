@@ -8,22 +8,6 @@ configDotenv(); // Load environment variables from .env file
 
 const app = express();
 
-// Function to start the server and connect to the database
-async function startServer() {
-  try {
-    const result = await db.raw(
-      "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
-    );
-    console.log("Database connected successfully...");
-    console.log("Tables in the database:", result.rows);
-  } catch (err) {
-    console.error("Error connecting to the database:", err);
-    process.exit(1); // Exit the process if database connection fails
-  }
-}
-
-startServer();
-
 // Middlewares
 app.use(express.json()); // For parsing JSON requests
 app.use(cors()); // Enable Cross-Origin Resource Sharing
