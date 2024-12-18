@@ -10,7 +10,7 @@ import notificationRoutes from "./notificationRoutes.js";
 import schedule from 'node-schedule';
 import {sendPreDueDateReminder ,sendDueDateAlert } from "../Controller/notificationController.js";
 
-const app = express();
+const app = express().router();
 
 app.use("/user",userRoute)
 app.use("/cars",carRoutes);
