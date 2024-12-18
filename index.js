@@ -40,26 +40,6 @@ app.get("/", (req, res) => {
 app.get("*", (req, res) => {
   res.send("Route not defined!");
 });
-
-// Universal 404 handler for undefined routes
-app.use((req, res, next) => {
-  res.status(404).json({
-    status: "fail",
-    message: `Cannot find ${req.originalUrl} on this server!`,
-  });
-});
-
-// Universal error handler for server errors
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const status = err.status || "error";
-
-  res.status(statusCode).json({
-    status,
-    message: err.message,
-  });
-});
-
 // Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
