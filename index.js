@@ -19,8 +19,4 @@ app.get("/", (req, res) => {
 // Main API routes
 app.use("/v0/api", Mainroute);
 
-// Start the server (for local development)
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
-    console.log(`Server is running at port Number ${PORT}`);
-  });
+export default app;
