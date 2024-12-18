@@ -19,4 +19,7 @@ app.get("/", (req, res) => {
 // Main API routes
 app.use("/v0/api", Mainroute);
 
+app.listen(process.env.PORT,()=>{
+  console.log("server is running")
+})
 export default app;
