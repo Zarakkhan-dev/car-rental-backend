@@ -24,6 +24,3 @@ app.use("/v0/api", Mainroute);
   app.listen(PORT, () => {
     console.log(`Server is running at port Number ${PORT}`);
   });
-
-// Export the app handler for Vercel serverless function
-export default app;
