@@ -1,56 +1,62 @@
-import express from "express";
+import express from "express"
+import db from "./Config/db.js";
 import { configDotenv } from "dotenv";
 import cors from "cors";
-import userRoute from "./routes/carRoutes.js"
-import bookingRoutes from "./routes/bookingRoutes.js";
-import carRoutes from "./routes/carRoutes.js";
-import cardRoutes from "./routes/cardRoutes.js ";
-import driverRoutes from "./routes/driverRoutes.js"
-import fuelingRoutes from "./routes/fuelingRoutes.js";
-import maintenanceRoutes from "./routes/maintenanceRoutes.js";
-import notificationRoutes from "./routes/notificationRoutes.js";
-import schedule from 'node-schedule';
-import {sendPreDueDateReminder ,sendDueDateAlert } from "./Controller/notificationController.js";
-
-configDotenv(); // Load environment variables from .env file
-
+import Mainroute from "./routes/mainRoutes.js";
+configDotenv();
 const app = express();
 
-// Middlewares
-app.use(express.json()); // For parsing JSON requests
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+async function startServer() {
+	try {
+		const result = await db.raw(
+			"SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'"
+		);
+		console.log("Database connected successfully...");
+		console.log("Tables in the database:", result.rows);
 
-// Base route
-app.get("/", (req, res) => {
-  res.send("Car Rental API .... !");
-});
+	} catch (err) {
+		console.error("Error connecting to the database:", err);
+		process.exit(1); 
+	}
+}
 
-app.use("/user",userRoute)
-app.use("/cars",carRoutes);
-app.use("/bookings",bookingRoutes);
-app.use("/cards",cardRoutes);
-app.use("/drivers",driverRoutes);
-app.use("/fuelings",fuelingRoutes);
-app.use("/maintenances",maintenanceRoutes);
-app.use("/notifications",notificationRoutes)
+startServer();
+
+//middlewares
+app.use(express.json());
+app.use(cors());
+
+//Routes
+app.use("/v0/api",Mainroute)
 
 
-// schedule.scheduleJob('0 8 * * *', async () => {
-//   try {
-//     await sendPreDueDateReminder();
-//   } catch (error) {
-//     console.error('Error sending pre-due date reminders:', error);
-//   }
-// });
+app.get("/",(req,res)=>{
+    res.send("Car Rental API .... !")
+})
 
-// // Schedule due date alerts to run every day at 8 AM
-// schedule.scheduleJob('0 8 * * *', async () => {
-//   try {
-//     await sendDueDateAlert();
-//   } catch (error) {
-//     console.error('Error sending due date alerts:', error);
-//   }
-// });
-app.listen(process.env.PORT,()=>{
-  console.log("server is running")
+app.get("*",()=>{
+    res.send("")
+})
+
+// Universal 404 handler for undefined routes
+app.use((req, res, next) => {
+    res.status(404).json({
+      status: 'fail',
+      message: `Cannot find ${req.originalUrl} on this server!`,
+    });
+  });
+  
+  // Universal error handler
+  app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const status = err.status || 'error';
+  
+    res.status(statusCode).json({
+      status,
+      message: err.message,
+    });
+  });
+const PORT = process.env.PORT || 3001
+app.listen(PORT , ()=>{
+    console.log(`Server is running at port Number ${PORT}`)
 })
