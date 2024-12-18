@@ -36,10 +36,7 @@ app.get("/", (req, res) => {
   res.send("Car Rental API .... !");
 });
 
-// Catch-all route for undefined GET requests
-app.get("*", (req, res) => {
-  res.send("Route not defined!");
-});
+
 // Start the server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
