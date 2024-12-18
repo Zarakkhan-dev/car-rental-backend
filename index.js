@@ -26,31 +26,13 @@ startServer();
 app.use(express.json());
 app.use(cors());
 
-// Routes
-app.use("/v0/api", Mainroute);
 
 app.get("/", (req, res) => {
   res.send("Car Rental API .... !");
 });
 
-// Universal 404 handler for undefined routes
-app.use((req, res) => {
-  res.status(404).json({
-    status: "fail",
-    message: `Cannot find ${req.originalUrl} on this server!`,
-  });
-});
+app.use("/v0/api", Mainroute);
 
-// Universal error handler
-app.use((err, req, res) => {
-  const statusCode = err.statusCode || 500;
-  const status = err.status || "error";
-
-  res.status(statusCode).json({
-    status,
-    message: err.message,
-  });
-});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
