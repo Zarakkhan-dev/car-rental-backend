@@ -4,6 +4,7 @@ import AppError from "../utils/appError.js"
 
 export const createCard = catchAsync(async (req, res, next) => {
     const {
+      
       bank_name,
       holder_name,
       card_number,
@@ -17,6 +18,7 @@ export const createCard = catchAsync(async (req, res, next) => {
     } = req.body;
   
     const [card] = await db('cards').insert({
+      
       bank_name,
       holder_name,
       card_number,

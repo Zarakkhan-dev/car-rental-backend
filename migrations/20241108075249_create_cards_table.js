@@ -4,7 +4,7 @@
  */
 export const up = async (knex) => {
   await knex.schema.createTable("cards", (table) => {
-    table.increments("id").primary();
+    table.increments("card_id").primary();
     table.string("bank_name").notNullable();
     table.string("holder_name").notNullable();
     table.string("card_number").notNullable();
