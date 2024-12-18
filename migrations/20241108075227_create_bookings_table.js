@@ -6,7 +6,7 @@ export const up = async (knex) => {
   await knex.schema.createTable("bookings", (table) => {
     table.increments("id").primary();
     table
-      .integer("car_id")
+      .integer("id")
       .unsigned()
       .references("id")
       .inTable("cars")
