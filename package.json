@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node index.js",
     "server": "nodemon index.js",
-    "build": "echo 'Build script not specified'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Zarak Khan",
@@ -23,11 +22,5 @@
     "node-schedule": "^2.1.1",
     "nodemailer": "^6.9.16",
     "pg": "^8.13.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  },
-  "engines": {
-    "node": "16.x"
   }
 }
