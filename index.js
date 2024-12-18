@@ -15,10 +15,15 @@ app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.get("/", (req, res) => {
   res.send("Car Rental API .... !");
 });
+
+// Main API routes
 app.use("/v0/api", Mainroute);
 
-// Start the server
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server is running at port Number ${PORT}`);
-});
+// Start the server (for local development)
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server is running at port Number ${PORT}`);
+  });
+
+// Export the app handler for Vercel serverless function
+export default app;
