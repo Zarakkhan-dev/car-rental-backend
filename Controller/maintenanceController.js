@@ -3,17 +3,16 @@ import catchAsync from '../utils/catchAsync.js';
 import AppError from "../utils/appError.js"
 
 export const createMaintenance = catchAsync(async (req, res, next) => {
-    const { car_id, date, chassis_no, engine, reg_no, cell, type, labour, total_labour_cost, total_parts_cost, grand_total } = req.body;
+    const { car_id, date, chassis_no, engine, cell, type, labour, total_labour_cost, total_parts_cost, grand_total } = req.body;
   
     const [maintenance] = await db('maintenance').insert({
       car_id,
       date,
       chassis_no,
       engine,
-      reg_no,
       cell,
       type,
-      labour: labour ? JSON.stringify(labour) : undefined ,
+      labour,
       total_labour_cost,
       total_parts_cost,
       grand_total,

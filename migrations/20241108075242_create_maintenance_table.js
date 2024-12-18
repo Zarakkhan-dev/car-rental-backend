@@ -14,10 +14,9 @@ export const up = async (knex) => {
     table.date("date").notNullable();
     table.string("chassis_no");
     table.string("engine");
-    table.string("reg_no");
     table.string("cell");
     table.string("type");
-    table.decimal("labour");
+    table.string("labour");
     table.decimal("total_labour_cost", 10, 2).notNullable();
     table.decimal("total_parts_cost", 10, 2).notNullable();
     table.decimal("grand_total", 10, 2).notNullable();
